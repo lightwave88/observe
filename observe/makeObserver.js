@@ -70,24 +70,27 @@
                     break;
                 case 'splice':
                     debugger;
-                    add = args.slice(2);
+                    add = args.splice(2);
                     remove = result;
-
+                    //-------------------
                     let delStart = args[0];
 
                     if (delStart != null) {
 
-                        let delLength = (function () {
-                            let res = preValue.length - delStart;
-                            if (args[1] != null) {
-                                res = (args[1] > res) ? res : args[1];
-                            }
-                            return res;
-                        })();
+                        if (delStart < 0) {
+                            delStart = preValue.length + delStart;
+                            delStart = (delStart < 0) ? 0 : delStart;
+                        }
 
+                        let delLength = (args[1] == null) ? preValue.length : args[1];
+                        //-----------------------
                         for (let i = 0; (i < delLength); i++) {
                             let index = delStart + i;
-                            removeKeyList.push(i);
+
+                            if (index >= preValue.length) {
+                                break;
+                            }
+                            removeKeyList.push(index);
                         }
                     }
                     break;
